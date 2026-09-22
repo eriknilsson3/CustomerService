@@ -1,0 +1,49 @@
+### 1. Register a test customer
+POST {{customerServiceUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "REST",
+  "lastName": "Test",
+  "email": "rest.test@example.com",
+  "phoneNumber": "0701234567",
+  "password": "TestPassword123!"
+}
+
+### 2. Login
+POST {{customerServiceUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "rest.test@example.com",
+  "password": "TestPassword123!"
+}
+
+> {%
+    client.global.set("token", response.body.token);
+    client.log("JWT stored for this HTTP Client session.");
+%}
+
+### 3. Get customer
+GET {{customerServiceUrl}}/customers/{{customerId}}
+Authorization: Bearer {{token}}
+
+### 4. Check whether the customer has active bookings
+GET {{bookingServiceUrl}}/bookings/customer/{{customerId}}/active
+Authorization: Bearer {{token}}
+
+### 5. Try deleting a customer with active booking
+DELETE {{customerServiceUrl}}/customers/{{customerId}}
+Authorization: Bearer {{token}}
+
+### 6. Cancel booking
+DELETE {{bookingServiceUrl}}/bookings/1
+Authorization: Bearer {{token}}
+
+### 7. Check active bookings again
+GET {{bookingServiceUrl}}/bookings/customer/{{customerId}}/active
+Authorization: Bearer {{token}}
+
+### 8. Delete customer now that they have no active bookings
+DELETE {{customerServiceUrl}}/customers/{{customerId}}
+Authorization: Bearer {{token}}
