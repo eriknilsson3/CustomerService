@@ -16,5 +16,5 @@ public class CustomerServiceApplication {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
+        //Test CI/CD
 }
