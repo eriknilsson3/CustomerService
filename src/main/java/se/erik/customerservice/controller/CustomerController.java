@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import se.erik.customerservice.dto.ChangePasswordRequest;
 import se.erik.customerservice.dto.CreateCustomerRequest;
 import se.erik.customerservice.dto.CustomerResponse;
 import se.erik.customerservice.dto.UpdateCustomerRequest;
@@ -48,6 +49,11 @@ public class CustomerController {
             @PathVariable Long id,
             @Valid @RequestBody UpdateCustomerRequest request) {
         return customerService.updateCustomer(id, request);
+    }
+
+    @PutMapping("/{id}/change-password")
+    public void changePassword(@PathVariable Long id, @Valid @RequestBody ChangePasswordRequest request) {
+        customerService.changePassword(id, request);
     }
 }
 

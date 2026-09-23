@@ -1,8 +1,10 @@
 package se.erik.customerservice.service;
 
+import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.erik.customerservice.dto.ChangePasswordRequest;
 import se.erik.customerservice.dto.CreateCustomerRequest;
 import se.erik.customerservice.dto.CustomerResponse;
 import se.erik.customerservice.dto.UpdateCustomerRequest;
@@ -112,5 +114,17 @@ public class CustomerService {
                 customer.getEmail(),
                 customer.getPhoneNumber()
         );
+    }
+
+    public void changePassword(Long id, ChangePasswordRequest request) {
+        Customer customer = customerRepo.findById(id).orElseThrow(()
+                -> new NotFoundException("Customer with id " + id + " not found"));
+
+        if (!passwordEncoder.matches(
+                request.currentPassword(),
+                customer.getPasswordHash()
+        )) {
+            throw new BadRequest("Current password doesn't match");
+        }
     }
 }
