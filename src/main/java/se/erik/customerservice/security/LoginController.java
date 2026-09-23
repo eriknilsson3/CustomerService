@@ -34,7 +34,7 @@ public class LoginController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
         Customer customer = customerRepo
-                .findByEmail(request.email()).orElseThrow(() -> new BadRequest("Invalid email or passowrd"));
+                .findByEmail(request.email()).orElseThrow(() -> new BadRequest("Invalid email or password"));
 
         boolean passwordMatches = passwordEncoder.matches(request.password(), customer.getPasswordHash());
 
