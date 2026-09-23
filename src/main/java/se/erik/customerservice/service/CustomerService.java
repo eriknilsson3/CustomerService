@@ -43,7 +43,7 @@ public class CustomerService {
         return toDTO(customer);
     }
 
-    ublic CustomerResponse createCustomer(CreateCustomerRequest request) {
+    public CustomerResponse createCustomer(CreateCustomerRequest request) {
 
         if (customerRepo.existsByEmail(request.email())) {
             throw new BadRequest("Customer with email " + request.email() + " already exists");
