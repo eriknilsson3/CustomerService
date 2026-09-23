@@ -126,5 +126,9 @@ public class CustomerService {
         )) {
             throw new BadRequest("Current password doesn't match");
         }
+
+        customer.setPasswordHash(passwordEncoder.encode(request.newPassword()));
+
+        customerRepo.save(customer);
     }
 }
